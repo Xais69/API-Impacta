@@ -1,0 +1,24 @@
+<!-- adicionar_professor.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adicionar Turma</title>
+</head>
+
+<body>
+  <h1>Adicionar Turma</h1>
+  <form action="{{ url_for('turmas.create_turma') }}" method="post">
+    <label for="idade">Nome da Turma:</label><br>
+    <input type="text" id="nome_turma" name="nome_turma" required><br>
+    
+    <label for="idade">Quantidade de alunos:</label><br>
+    <input type="number" id="qtd_alunos" name="qtd_alunos" required><br>
+
+    <input type="submit" value="Adicionar Turma">
+  </form>
+</body>
+
+</html>
