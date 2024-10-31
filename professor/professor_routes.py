@@ -29,8 +29,9 @@ def adicionar_professor_page():
 def create_professor():
     nome = request.form['nome']
     idade = request.form['idade']  
-    materia = request.form['materia']  
-    novo_professor = {'nome': nome, 'idade': idade, 'materia': materia} 
+    materia = request.form['materia']
+    observacoes = request.form['observacoes']  
+    novo_professor = {'nome': nome, 'idade': idade, 'materia': materia, 'observacoes': observacoes} 
     adicionar_professor(novo_professor)
     return redirect(url_for('professores.get_professores'))
 
@@ -52,8 +53,14 @@ def update_professor(id_professor):
         professor['nome'] = request.form['nome']
         professor['idade'] = int(request.form['idade'])
         professor['materia'] = request.form['materia']
+        professor['observacoes'] = request.form['observacoes']
         
-        atualizar_professor(id_professor, professor)
+        atualizar_professor(id_professor,{
+            'nome': professor['nome'],
+            'idade': professor['idade'],
+            'materia': professor['materia'],
+            'observacoes': professor['observacoes'], 
+        })
         
         return redirect(url_for('professores.get_professor', id_professor=id_professor))
     

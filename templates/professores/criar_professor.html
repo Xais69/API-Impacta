@@ -19,6 +19,9 @@
     <label for="materia">Matéria:</label><br>
     <input type="text" id="materia" name="materia" required><br>
 
+    <label for="observacoes">Observações:</label><br> <!-- Corrigido aqui -->
+    <input type="text" id="observacoes" name="observacoes"><br> <!-- Removi o "required" para permitir campo vazio -->
+
     <input type="submit" value="Adicionar Professor">
   </form>
   <a href="{{ url_for('professores.get_professores') }}">Voltar para a lista de professores</a>

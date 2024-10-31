@@ -18,7 +18,7 @@ def get_alunos():
     return render_template("alunos/alunos.html", alunos=alunos)
 
 ## ROTA PARA UM ALUNO
-@alunos_blueprint.route('/alunos/<int:id_aluno>', methods=['GET'])
+@alunos_blueprint.route('/aluno/<int:id_aluno>', methods=['GET'])
 def get_aluno(id_aluno):
     try:
         aluno = aluno_por_id(id_aluno)
@@ -36,9 +36,12 @@ def adicionar_aluno_page():
 def create_aluno():
     nome = request.form['nome']
     idade = request.form['idade']
-    email = request.form['email']
-    telefone = request.form['telefone']
-    novo_aluno = {'nome': nome, 'idade': idade, 'email': email, 'telefone': telefone}
+    data_nascimento = request.form['data_nascimento']
+    nota_primeiro_sesmestre = request.form['nota_primeiro_semestre']
+    nota_segundo_semestre = request.form['nota_segundo_semestre']
+    novo_aluno = {'nome': nome, 'idade': idade, 'data_nascimento': data_nascimento,
+                   'nota_primeiro_semestre': nota_primeiro_sesmestre,
+                   'nota_segundo_semestre': nota_segundo_semestre}
     adicionar_aluno(novo_aluno)
     return redirect(url_for('alunos.get_alunos'))
 
@@ -59,8 +62,9 @@ def update_aluno(id_aluno):
         aluno = aluno_por_id(id_aluno)
         aluno['nome'] = request.form['nome']
         aluno['idade'] = int(request.form['idade'])
-        aluno['email'] = request.form['email']
-        aluno['telefone'] = request.form['telefone']
+        aluno['data_nascimento'] = request.form['data_nascimento']
+        aluno['nota_primeiro_semestre'] = request.form['nota_segundo_semestre']
+        aluno['nota_segundo-semestre'] = request.form['nota_segundo_semestre']
         
         atualizar_aluno(id_aluno, aluno)
         
@@ -70,7 +74,7 @@ def update_aluno(id_aluno):
 
    
 ## ROTA QUE DELETA UM ALUNO
-@alunos_blueprint.route('/alunos/delete/<int:id_aluno>', methods=['DELETE','POST'])
+@alunos_blueprint.route('/alunos/excluir/<int:id_aluno>', methods=['DELETE','POST'])
 def delete_aluno(id_aluno):
         try:
             excluir_aluno(id_aluno)

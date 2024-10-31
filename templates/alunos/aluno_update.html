@@ -11,21 +11,25 @@
   <h1>Atualizar Aluno</h1>
   <form action="{{ url_for('alunos.update_aluno', id_aluno=aluno['id']) }}" method="POST">
     <input type="hidden" name="_method" value="PUT">
-    
+
     <label for="nome">Nome:</label><br>
-    <input type="text" id="nome" name="nome" value="{{ aluno['nome'] }}"><br>
-    
+    <input type="text" id="nome" name="nome" value="{{ aluno['nome'] }}" required><br>
+
     <label for="idade">Idade:</label><br>
-    <input type="number" id="idade" name="idade" value="{{ aluno['idade'] }}"><br>
-    
-    <label for="email">Email:</label><br>
-    <input type="email" id="email" name="email" value="{{ aluno['email'] }}"><br>
-    
-    <label for="telefone">Telefone:</label><br>
-    <input type="text" id="telefone" name="telefone" maxlength="15" value="{{ aluno['telefone'] }}"><br>
-    
+    <input type="number" id="idade" name="idade" value="{{ aluno['idade'] }}" required><br>
+
+    <label for="data_nascimento">Data de Nascimento:</label><br>
+    <input type="date" id="data_nascimento" name="data_nascimento" value="{{ aluno['data_nascimento'] }}" required><br>
+
+    <label for="nota_primeiro_semestre">Nota Primeiro Semestre:</label><br>
+    <input type="number" step="0.01" id="nota_primeiro_semestre" name="nota_primeiro_semestre" value="{{ aluno['nota_primeiro_semestre'] }}"><br>
+
+    <label for="nota_segundo_semestre">Nota Segundo Semestre:</label><br>
+    <input type="number" step="0.01" id="nota_segundo_semestre" name="nota_segundo_semestre" value="{{ aluno['nota_segundo_semestre'] }}"><br>
+
     <button type="submit">Atualizar</button>
   </form>
+  <a href="{{ url_for('alunos.get_alunos') }}">Voltar para a lista de alunos</a>
 </body>
 
 </html>

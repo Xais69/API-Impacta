@@ -11,8 +11,14 @@
 <body>
   <h1>Detalhes da Turma</h1>
   <p><strong>ID:</strong> {{ turmas.id }}</p>
-  <p><strong>Nome da Turma:</strong> {{ turmas.nome_turma }}</p>
-  <p><strong>Quantidade de alunos:</strong> {{ turmas.qtd_alunos }}</p>
+  <p><strong>Descricão da turma:</strong> {{ turmas.descricao }}</p>
+  <p><strong>Status:</strong> 
+    {% if turmas.status %}
+      Ativo
+    {% else %}
+      Desativado
+    {% endif %}
+  </p>
 
   <form id="delete-form" action="{{ url_for('turmas.delete_turma', id_turma=turmas.id) }}" method="POST">
     <input type="hidden" name="_method" value="DELETE">

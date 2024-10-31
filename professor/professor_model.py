@@ -5,15 +5,18 @@ class Professor(db.Model):
     nome = db.Column(db.String(150))
     idade = db.Column(db.Integer)
     materia = db.Column(db.String(40))
+    observacoes = db.Column(db.String(250))
 
-
-    def __init__(self,nome, idade, materia): 
+    def __init__(self,nome, idade, materia,observacoes): 
         self.nome = nome
         self.idade = idade
         self.materia = materia
+        self.observacoes = observacoes
+
 
     def to_dict(self):
-        return{'id': self.id, 'nome': self.nome, 'idade': self.idade, 'materia': self.materia} 
+        return{'id': self.id, 'nome': self.nome, 'idade': self.idade, 'materia': self.materia,
+                'observacoes': self.observacoes} 
 
 class ProfessorNaoEncontrado(Exception):
     pass
@@ -33,7 +36,8 @@ def adicionar_professor(dados_professor):
     novo_professor = Professor(
         nome=dados_professor['nome'],
         idade=dados_professor['idade'],
-        materia=dados_professor['materia']
+        materia=dados_professor['materia'],
+        observacoes=dados_professor['observacoes']
     )
     db.session.add(novo_professor)
     db.session.commit()
@@ -46,6 +50,7 @@ def atualizar_professor(id_professor, novos_dados):
     professor.nome = novos_dados['nome']
     professor.idade = novos_dados['idade']
     professor.materia = novos_dados['materia']
+    professor.observacoes = novos_dados['observacoes']
 
     db.session.commit()
 

@@ -11,11 +11,14 @@
 <body>
   <h1>Adicionar Turma</h1>
   <form action="{{ url_for('turmas.create_turma') }}" method="post">
-    <label for="idade">Nome da Turma:</label><br>
-    <input type="text" id="nome_turma" name="nome_turma" required><br>
+    <label for="idade">Descricão da Turma:</label><br>
+    <input type="text" id="descricao" name="descricao" required><br>
     
-    <label for="idade">Quantidade de alunos:</label><br>
-    <input type="number" id="qtd_alunos" name="qtd_alunos" required><br>
+    <label for="status">Status:</label><br>
+    <select id="status" name="status">
+      <option value="True">Ativo</option>
+      <option value="False">Desativado</option>
+    </select><br><br>
 
     <input type="submit" value="Adicionar Turma">
   </form>
