@@ -26,7 +26,7 @@ def adicionar_professor_page():
     return render_template('professores/criar_professor.html')
 
 # Rota para criar um novo professor
-@professores_blueprint.route('/professores', methods=['POST','GET'])
+@professores_blueprint.route('/professores/adicionar', methods=['POST','GET'])
 def create_professor():
     if request.method == 'POST':
         dados_professor = request.form.to_dict(flat=True)
@@ -49,7 +49,7 @@ def editar_professor_page(id_professor):
         return jsonify({'message': 'Professor não encontrado'}), 404
 
 # Rota para editar um professor existente
-@professores_blueprint.route('/professores/<int:id_professor>', methods=['GET', 'POST', 'PUT'])
+@professores_blueprint.route('/professores/<int:id_professor>/editar', methods=['GET', 'POST', 'PUT'])
 def update_professor(id_professor):
     try:
         professor = professor_por_id(id_professor)

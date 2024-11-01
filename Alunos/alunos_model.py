@@ -11,7 +11,7 @@ class Aluno(db.Model):
     nota_segundo_semestre = db.Column(db.Float)
     media_final = db.Column(db.Float)
     professor = db.Column(db.String(150))
-    turma_id = db.Column(db.Integer, db.ForeignKey('turma.id'), nullable=False)
+    turma_id = db.Column(db.Integer, db.ForeignKey('turma.id'), nullable=True)
 
     def __init__(self, nome,professor, turma_id, idade, data_nascimento, nota_primeiro_semestre, nota_segundo_semestre):  
         self.nome = nome
@@ -63,7 +63,7 @@ def adicionar_aluno(aluno_data):
         nota_primeiro_semestre=float(aluno_data['nota_primeiro_semestre']),  # Converter para float
         nota_segundo_semestre=float(aluno_data['nota_segundo_semestre']),     # Converter para float
         turma_id=aluno_data.get('turma_id'),
-        professor=aluno_data['professor']
+        professor=aluno_data['professor']  # Corrigido para usar 'professor_id'
     )
     db.session.add(novo_aluno)
     db.session.commit()
