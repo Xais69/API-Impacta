@@ -22,18 +22,20 @@ class Turma(db.Model):
         return {'id': self.id, 
                 'descricao': self.descricao, 
                 'status': self.status,
-                'professor_id': self.professor_id,
-                'professor_nome': self.professor.nome if self.professor else None
-        }
+                'professor': {
+                'id': self.professor.id,
+                'nome': self.professor.nome}if self.professor else None
+                }
 
 class TurmaNaoEncontrada(Exception):
     pass
 
 def turma_por_id(id_turma):
     turma = Turma.query.get(id_turma)
-    if not turma:
-        raise TurmaNaoEncontrada
-    return turma.to_dict()
+    if turma is None:
+        raise TurmaNaoEncontrada(f'Turma com ID {id_turma} não encontrada.')
+    return turma  # Certifique-se de retornar o objeto Turma
+
 
 def listar_turmas():
     turmas = Turma.query.all()
@@ -42,21 +44,28 @@ def listar_turmas():
 def adicionar_turma(turma_data):
     try:
         print(f"Dados Recebidos: {turma_data}")
-        professor_id = turma_data.get("professor_id")
-        print(f"ID do Professor: {professor_id}")
 
-        if professor_id is None:
-            raise ValueError("professor_id não pode ser None")
+        # Valida os dados recebidos
+        descricao = turma_data.get("descricao")
+        if not descricao:
+            raise ValueError("A descrição da turma não pode ser vazia.")
 
-        professor = Professor.query.get(professor_id)
-        if professor is None:
-            raise ValueError(f"Professor com id `{professor_id}` não existe")
+        status = turma_data.get("status", True)  # Padrão para True se não for fornecido
 
+        # Cria a nova turma
         nova_turma = Turma(
-            descricao=turma_data.get("descricao"),
-            professor_id=professor_id,
-            status=turma_data.get("status")
+            descricao=descricao,
+            status=status
         )
+
+        # Atribui um único professor se for necessário
+        professor_id = turma_data.get('professor_id')  # Assume um único ID de professor
+        if professor_id:
+            professor = Professor.query.get(professor_id)
+            if professor:
+                nova_turma.professor_id = professor.id  # Atribui o ID do professor
+            else:
+                raise ValueError(f"Professor com id `{professor_id}` não existe")
 
         db.session.add(nova_turma)
         db.session.commit()
@@ -66,6 +75,7 @@ def adicionar_turma(turma_data):
         db.session.rollback()  # Reverte a sessão em caso de erro
         print(f"Erro ao adicionar a turma: {str(e)}")
         raise  # Relevanta a exceção para ser tratada em outro lugar
+
 
 
 def atualizar_turma(id_turma, novos_dados):

@@ -63,6 +63,8 @@ def atualizar_professor(id_professor, novos_dados):
     professor.idade = novos_dados['idade']
     professor.materia = novos_dados['materia']
     professor.observacoes = novos_dados['observacoes']
+    db.session.commit()  # Não esqueça de salvar as mudanças!
+
 
     db.session.commit()
 

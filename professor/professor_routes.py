@@ -49,27 +49,33 @@ def editar_professor_page(id_professor):
         return jsonify({'message': 'Professor não encontrado'}), 404
 
 # Rota para editar um professor existente
-@professores_blueprint.route('/professores/<int:id_professor>', methods=['PUT', 'POST'])
+@professores_blueprint.route('/professores/<int:id_professor>', methods=['GET', 'POST', 'PUT'])
 def update_professor(id_professor):
     try:
         professor = professor_por_id(id_professor)
-        
-        professor['nome'] = request.form['nome']
-        professor['idade'] = int(request.form['idade'])
-        professor['materia'] = request.form['materia']
-        professor['observacoes'] = request.form['observacoes']
-        
-        atualizar_professor(id_professor,{
-            'nome': professor['nome'],
-            'idade': professor['idade'],
-            'materia': professor['materia'],
-            'observacoes': professor['observacoes'], 
-        })
-        
-        return redirect(url_for('professores.get_professor', id_professor=id_professor))
-    
-    except ProfessorNaoEncontrado:
-        return jsonify({'message': 'Professor não encontrado'}), 404
+
+        if request.method == 'POST':
+            professor.nome = request.form['descricao']
+            professor.idade = request.form['idade']
+            professor.materia = request.form['materia']
+            professor.observacoes = request.form['observacoes']
+
+            atualizar_professor(id_professor, {
+                'nome': professor.nome,
+                'idade': professor.idade,
+                'materia': professor.materia,
+                'observacoes': professor.observacoes,
+            })
+
+            return redirect(url_for('professores.get_professores', id_professor=id_professor))
+
+    except Exception as e:
+        # Aqui você pode lidar com o erro se necessário
+        pass
+
+    return render_template('professores/professor_update.html', professor=professor)
+
+
 
 
 
@@ -81,5 +87,4 @@ def delete_professor(id_professor):
         return redirect(url_for('professores.get_professores'))
     except ProfessorNaoEncontrado:
         return jsonify({'message': 'Professor não encontrado'}), 404
-
 

@@ -79,6 +79,11 @@
         <button type="submit">Excluir Professor</button>
     </form>
     
+    <form action="{{ url_for('professores.update_professor', id_professor=professor.id) }}" method='POST'>
+        <button type="submit" class="edit-button">Editar Turma</button>
+      </form>
+
+
     <a href="{{ url_for('professores.get_professores') }}">Voltar para a lista de professores</a>
 </body>
 

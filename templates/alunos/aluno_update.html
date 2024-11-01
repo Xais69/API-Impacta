@@ -94,12 +94,11 @@
 
 
 
-       
         <label for="turma_id">Turma:</label>
         <select id="turma_id" name="turma_id">
-            <option value="" disabled selected>Selecione uma turma (opcional)</option>
+            <option value="" disabled {% if not aluno['turma_id'] %}selected{% endif %}>Selecione uma turma (opcional)</option>
             {% for turma in turmas %}
-                <option value="{{ turma.id }}">{{ turma.descricao }}</option>
+                <option value="{{ turma.id }}" {% if turma.id == aluno['turma_id'] %}selected{% endif %}>{{ turma.descricao }}</option>
             {% endfor %}
         </select>
 

@@ -85,20 +85,13 @@
   <div class="container">
     <h1>Atualizar Turma</h1>
     <form action="{{ url_for('turmas.update_turma', id_turma=turma.id) }}" method="POST">
-      <input type="hidden" name="_method" value="PUT">
-
-      <label for="descricao">Descrição da Turma:</label>
-      <input type="text" id="descricao" name="descricao" value="{{ turma.descricao }}" required>
-
-      <label for="status">Status:</label>
-      <input type="checkbox" id="status" name="status" value="1" {% if turma.status %}checked{% endif %}>
-      <span>Marque se a turma está ativa</span>
-
-      <label for="professor_id">Professor ID:</label>
-      <input type="number" id="professor_id" name="professor_id" value="{{ turma.professor_id }}" required>
-
-      <button type="submit">Atualizar</button>
-    </form>
+      <input type="text" name="descricao" value="{{ turma.descricao }}" required>
+      <select name="status">
+          <option value="True" {% if turma.status %}selected{% endif %}>Ativo</option>
+          <option value="False" {% if not turma.status %}selected{% endif %}>Desativado</option>
+      </select>
+      <input type="submit" value="Atualizar Turma">
+  </form>
 
     <a href="{{ url_for('turmas.get_turmas') }}">Voltar para a lista de turmas</a>
   </div>

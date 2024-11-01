@@ -102,13 +102,15 @@
     <a class="button" href="{{ url_for('turmas.adicionar_turma_page') }}">Adicionar Turma</a>
     <ul>
         {% for turma in turmas %}
-            <li>
-                <a href="{{ url_for('turmas.get_turma', id_turma=turma.id) }}">{{ turma.descricao }}</a>
-            </li>
+          <li>
+            <a href="{{ url_for('turmas.get_turma', id_turma=turma.id) }}">
+              {{ turma.descricao }} (ID: {{ turma.id }})
+            </a>
+          </li> <!-- Aqui foi adicionado o fechamento da tag li -->
         {% else %}
             <li class="no-data">Nenhuma turma encontrada.</li>
         {% endfor %}
-    </ul>
+    </ul> <!-- Aqui foi adicionado o fechamento da tag ul -->
 
     <h2>
         <a href="{{ url_for('alunos.get_alunos') }}">Alunos</a>

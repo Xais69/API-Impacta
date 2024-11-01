@@ -45,11 +45,6 @@
             margin-top: 5px;
             color: #555;
         }
-
-        .turma {
-            font-weight: bold;
-            color: #007bff;
-        }
     </style>
 </head>
 
@@ -62,20 +57,10 @@
             <span>Idade: {{ professor.idade }}</span>
             <span>Matéria: {{ professor.materia }}</span>
             <span>Observações: {{ professor.observacoes }}</span>
-            
-            <span class="turma">Turmas:</span>
-            <ul>
-                {% for turma in professor.turmas %}
-                    <li>{{ turma.descricao }}</li>
-                {% else %}
-                    <li>Não atribuído</li>
-                {% endfor %}
-            </ul>
         </li>
         {% endfor %}
     </ul>
-</ul>
-<a href="{{ url_for('alunos.getIndex') }}" class="back-button">Voltar para a Página Inicial</a>
+    <a href="{{ url_for('alunos.getIndex') }}" class="back-button">Voltar para a Página Inicial</a>
 </body>
 
 </html>

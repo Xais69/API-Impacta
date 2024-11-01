@@ -88,13 +88,6 @@
         <label for="observacoes">Observações:</label>
         <textarea id="observacoes" name="observacoes"></textarea>
 
-        <select id="turma_id" name="turma_id">
-            <option value="" disabled selected>Selecione uma turma (opcional)</option>
-            {% for turma in turmas %}
-                <option value="{{ turma.id }}">{{ turma.descricao }}</option>
-            {% endfor %}
-        </select>
-        
         <button type="submit">Adicionar Professor</button>
     </form>
     <a href="{{ url_for('professores.get_professores') }}">Voltar para a lista de professores</a>

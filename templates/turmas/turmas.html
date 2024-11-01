@@ -84,14 +84,14 @@
             Status: {% if turma.status %}Ativo{% else %}Desativado{% endif %}
           </p>
           <p>
-            Professor: {{ turma.professor.id if turma.professor else 'Sem Professor' }}
+            Professor: {{ turma.professor.nome if turma.professor else 'Sem Professor' }}
           </p>
         </li>
+      {% else %}
+        <li class="no-data">Nenhuma turma encontrada.</li> <!-- Caso não haja turmas -->
       {% endfor %}
     </ul>
+    <a href="{{ url_for('alunos.getIndex') }}" class="back-button" aria-label="Voltar para a página inicial">Voltar para a Página Inicial</a>
   </div>
-</ul>
-<a href="{{ url_for('alunos.getIndex') }}" class="back-button">Voltar para a Página Inicial</a>
 </body>
-
 </html>

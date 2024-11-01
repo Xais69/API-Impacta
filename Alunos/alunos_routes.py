@@ -39,47 +39,24 @@ def adicionar_aluno_page():
     return render_template('alunos/criar_alunos.html', turmas = turmas)
 
 ## ROTA QUE CRIA UM NOVO ALUNO
-@alunos_blueprint.route('/alunos', methods=['POST'])
-def create_aluno():
-    aluno_data = {
-        'nome': request.form['nome'],
-        'idade': request.form['idade'],
-        'data_nascimento': request.form['data_nascimento'],
-        'nota_primeiro_semestre': request.form['nota_primeiro_semestre'],
-        'nota_segundo_semestre': request.form['nota_segundo_semestre'],
-        'professor': request.form['professor'],  # Se aplicável
-        'turma_id': request.form['turma_id']  # Captura o ID da turma
-    }
-    adicionar_aluno(aluno_data)
-    return redirect(url_for('alunos.get_alunos'))
-
-## ROTA PARA O FORMULARIO PARA EDITAR UM NOVO ALUNO
-@alunos_blueprint.route('/alunos/<int:id_aluno>/editar', methods=['GET'])
-def editar_aluno_page(id_aluno):
-    try:
-        aluno = aluno_por_id(id_aluno)
-        return render_template('alunos/aluno_update.html', aluno=aluno)
-    except AlunoNaoEncontrado:
-        return jsonify({'message': 'Aluno não encontrado'}), 404
-
-## ROTA QUE EDITA UM ALUNO
-@alunos_blueprint.route('/alunos/<int:id_aluno>', methods=['PUT', 'POST'])
+@alunos_blueprint.route('/alunos/<int:id_aluno>/editar', methods=['GET', 'POST'])
 def update_aluno(id_aluno):
-    print("Dados recebidos no formulário:", request.form)
-    try:
-        aluno = aluno_por_id(id_aluno)
-        aluno['nome'] = request.form['nome']
-        aluno['idade'] = int(request.form['idade'])
-        aluno['data_nascimento'] = request.form['data_nascimento']
-        aluno['nota_primeiro_semestre'] = request.form['nota_segundo_semestre']
-        aluno['nota_segundo-semestre'] = request.form['nota_segundo_semestre']
-        aluno['professor'] = request.form['professor']
-        
-        atualizar_aluno(id_aluno, aluno)
-        
-        return redirect(url_for('alunos.get_aluno', id_aluno=id_aluno))
-    except AlunoNaoEncontrado:
-        return jsonify({'message': 'Aluno não encontrado'}), 404
+    aluno = Aluno.query.get(id_aluno)  # Supondo que você esteja usando SQLAlchemy
+    
+    if request.method == 'POST':
+        # Atualiza os dados do aluno
+        aluno.nome = request.form['nome']
+        aluno.idade = request.form['idade']
+        aluno.nota_primeiro_semestre = request.form['nota_primeiro_semestre']
+        aluno.nota_segundo_semestre = request.form['nota_segundo_semestre']
+        aluno.professor = request.form['professor']
+
+        db.session.commit()  # Salva as alterações no banco de dados
+        return redirect(url_for('alunos.getIndex'))  # Redireciona para uma página após a atualização
+    
+    return render_template('alunos/aluno_update.html', aluno=aluno)
+  # Renderiza um template para o formulário de atualização
+
 
    
 ## ROTA QUE DELETA UM ALUNO

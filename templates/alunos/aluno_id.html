@@ -55,6 +55,15 @@
     a:hover {
       text-decoration: underline;
     }
+
+    .update-button {
+      background-color: #3498db;
+      margin-top: 10px;
+    }
+
+    .update-button:hover {
+      background-color: #2980b9;
+    }
   </style>
 </head>
 
@@ -71,6 +80,9 @@
     <div class="detail"><strong>Média Final:</strong> {{ aluno.media_final }}</div>
     <div class="detail"><strong>Professor:</strong> {{ aluno.professor }}</div>
 
+    <form id="update-form" action="{{ url_for('alunos.update_aluno', id_aluno=aluno.id) }}" method="FORM">
+      <button type="submit" class="update-button">Atualizar Aluno</button>
+    </form>
 
     <form id="delete-form" action="{{ url_for('alunos.delete_aluno', id_aluno=aluno.id) }}" method="POST">
       <input type="hidden" name="_method" value="DELETE">
