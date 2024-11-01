@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, render_template, redirect, url_for
 from professor.professor_model import ProfessorNaoEncontrado, listar_professores, professor_por_id, adicionar_professor, atualizar_professor, excluir_professor
 from config import db
+from turmas.turmas_model import Turma
 
 professores_blueprint = Blueprint('professores', __name__)
 
@@ -25,15 +26,24 @@ def adicionar_professor_page():
     return render_template('professores/criar_professor.html')
 
 # Rota para criar um novo professor
-@professores_blueprint.route('/professores', methods=['POST'])
+@professores_blueprint.route('/professores', methods=['POST','GET'])
 def create_professor():
-    nome = request.form['nome']
-    idade = request.form['idade']  
-    materia = request.form['materia']
-    observacoes = request.form['observacoes']  
-    novo_professor = {'nome': nome, 'idade': idade, 'materia': materia, 'observacoes': observacoes} 
-    adicionar_professor(novo_professor)
-    return redirect(url_for('professores.get_professores'))
+    if request.method == 'POST':
+        dados_professor = {
+            'nome': request.form['nome'],
+            'idade': request.form['idade'],
+            'materia': request.form['materia'],
+            'observacoes': request.form['observacoes'],
+            'turmas_ids': request.form.getlist('turmas_ids')  # Captura a lista de turmas selecionadas
+        }
+        adicionar_professor(dados_professor)
+        return redirect(url_for('professores.get_professores'))
+
+    # GET: Renderiza o formulário e passa as turmas
+    turmas = Turma.query.all()  # Obtém todas as turmas
+    print(turmas)
+    return render_template('criar_professor.html', turmas=turmas)
+
 
 # Rota para exibir o formulário de edição de professor
 @professores_blueprint.route('/professores/<int:id_professor>/editar', methods=['GET'])

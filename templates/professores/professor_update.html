@@ -2,30 +2,101 @@
 <html lang="pt-BR">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Atualizar Professor</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atualizar Professor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
 <body>
-  <h1>Atualizar Professor</h1>
-  <form action="{{ url_for('professores.update_professor', id_professor=professor.id) }}" method="POST">
-    <input type="hidden" name="_method" value="PUT">
-    
-    <label for="nome">Nome:</label>
-    <input type="text" id="nome" name="nome" value="{{ professor.nome }}" required><br>
-    
-    <label for="idade">Idade:</label>
-    <input type="number" id="idade" name="idade" value="{{ professor.idade }}" required><br>
+    <h1>Atualizar Professor</h1>
+    <form action="{{ url_for('professores.update_professor', id_professor=professor.id) }}" method="POST">
+        <input type="hidden" name="_method" value="PUT">
 
-    <label for="materia">Matéria:</label>
-    <input type="text" id="materia" name="materia" value="{{ professor.materia }}" required><br>
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" value="{{ professor.nome }}" required>
 
-    <label for="materia">Observações:</label>
-    <input type="text" id="observacoes" name="observacoes" value="{{ professor.observacoes }}" required><br>
-    
-    <button type="submit">Atualizar</button>
-  </form>
+        <label for="idade">Idade:</label>
+        <input type="number" id="idade" name="idade" value="{{ professor.idade }}" required>
+
+        <label for="materia">Matéria:</label>
+        <input type="text" id="materia" name="materia" value="{{ professor.materia }}" required>
+
+        <label for="observacoes">Observações:</label>
+        <input type="text" id="observacoes" name="observacoes" value="{{ professor.observacoes }}" required>
+
+        <label for="turma_id">Turma:</label>
+        <select id="turma_id" name="turma_id">
+            <option value="" disabled selected>Selecione uma turma (opcional)</option>
+            {% for turma in turmas %}
+                <option value="{{ turma.id }}" {% if turma.id == professor.turma_id %}selected{% endif %}>{{ turma.descricao }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Atualizar</button>
+    </form>
+
+    <a href="{{ url_for('professores.get_professores') }}">Voltar para a lista de professores</a>
 </body>
 
 </html>

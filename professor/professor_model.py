@@ -1,4 +1,5 @@
 from config import db
+from turmas.turmas_model import Turma
 
 class Professor(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -6,6 +7,7 @@ class Professor(db.Model):
     idade = db.Column(db.Integer)
     materia = db.Column(db.String(40))
     observacoes = db.Column(db.String(250))
+    turmas = db.relationship('Turma', back_populates='professor')
 
     def __init__(self,nome, idade, materia,observacoes): 
         self.nome = nome
@@ -39,8 +41,18 @@ def adicionar_professor(dados_professor):
         materia=dados_professor['materia'],
         observacoes=dados_professor['observacoes']
     )
-    db.session.add(novo_professor)
-    db.session.commit()
+
+    # Se o professor está associado a alguma turma, vincule as turmas ao professor
+    for turma_id in dados_professor.get('turmas_ids', []):
+        turma = Turma.query.get(turma_id)  # Obtém a turma pelo ID
+        if turma:  # Verifica se a turma existe
+            turma.professor = novo_professor  # Associa a turma ao professor
+            novo_professor.turmas.append(turma)  # Adiciona a turma à lista de turmas do professor
+
+    db.session.add(novo_professor)  # Adiciona o novo professor à sessão
+    db.session.commit()  # Salva as alterações no banco de dados
+
+
 
 
 def atualizar_professor(id_professor, novos_dados):

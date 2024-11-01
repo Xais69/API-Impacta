@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial da Escola API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        h2 {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        li:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .no-data {
+            font-style: italic;
+            color: #888;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Bem-vindo ao projeto de API!</h1>
+
+    <h2>
+        <a href="/professor">Professores</a>
+    </h2>
+    <ul>
+        {% for professor in professores %}
+            <li>
+                <a href="/professor/{{ professor.id }}">{{ professor.nome }}</a> - {{ professor.materia }}
+            </li>
+        {% else %}
+            <li class="no-data">Nenhum professor encontrado.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>
+        <a href="/turmas">Turmas</a>
+    </h2>
+    <ul>
+        {% for turma in turmas %}
+            <li>
+                <a href="/turmas/{{ turma.id }}">{{ turma.descricao }}</a>
+            </li>
+        {% else %}
+            <li class="no-data">Nenhuma turma encontrada.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>
+        <a href="/alunos">Alunos</a>
+    </h2>
+    <ul>
+        {% for aluno in alunos %}
+            <li>
+                <a href="/alunos/{{ aluno.id }}">{{ aluno.nome }}</a> - {{ aluno.idade }} anos
+            </li>
+        {% else %}
+            <li class="no-data">Nenhum aluno encontrado.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

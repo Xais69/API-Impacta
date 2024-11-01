@@ -2,32 +2,78 @@
 <html lang="pt-BR">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lista de Alunos</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Alunos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        span {
+            display: block;
+            margin-top: 5px;
+            color: #555;
+        }
+
+        .turma {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .media-final {
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
-  <h1>Lista de Alunos</h1>
-  <ul>
-    {% for aluno in alunos %}
-    <li>
-      <a href="{{ url_for('alunos.get_aluno', id_aluno=aluno.id) }}">{{ aluno.nome }} (ID: {{ aluno.id }})</a>
-      <br>
-      <span>Idade: {{ aluno.idade }}</span>
-      <br>
-      <span>Data de Nascimento: {{ aluno.data_nascimento }}</span>
-      <br>
-      <span>Nota Primeiro Semestre: {{ aluno.nota_primeiro_semestre }}</span>
-      <br>
-      <span>Nota Segundo Semestre: {{ aluno.nota_segundo_semestre }}</span>
-      <br>
-      <span>Media Final: {{ aluno.media_final }}</span>
-      <br>
-  </li>
-  {% endfor %}
-</ul>
+    <h1>Lista de Alunos</h1>
+    <ul>
+        {% for aluno in alunos %}
+        <li>
+            <a href="{{ url_for('alunos.get_aluno', id_aluno=aluno.id) }}">{{ aluno.nome }} (ID: {{ aluno.id }})</a>
+            <span class="turma">Turma: {{ aluno.turma.descricao if aluno.turma else 'Não atribuído' }}</span>
+            <span>Idade: {{ aluno.idade }}</span>
+            <span>Data de Nascimento: {{ aluno.data_nascimento }}</span>
+            <span>Nota Primeiro Semestre: {{ aluno.nota_primeiro_semestre }}</span>
+            <span>Nota Segundo Semestre: {{ aluno.nota_segundo_semestre }}</span>
+            <span class="media-final">Média Final: {{ aluno.media_final }}</span>
+            <span class="media-final">Professor: {{ aluno.professor }}</span>
 
+        </li>
+        {% endfor %}
+    </ul>
 </body>
 
 </html>

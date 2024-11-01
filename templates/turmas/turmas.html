@@ -5,27 +5,88 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lista de Turmas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      background-color: #f9f9f9;
+      margin: 10px 0;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease;
+    }
+
+    li:hover {
+      background-color: #f1f1f1;
+    }
+
+    a {
+      text-decoration: none;
+      color: #007bff;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .status {
+      font-weight: bold;
+      margin-top: 5px;
+      color: #555;
+    }
+
+    .status.ativo {
+      color: #28a745; /* Verde para ativo */
+    }
+
+    .status.desativado {
+      color: #dc3545; /* Vermelho para desativado */
+    }
+  </style>
 </head>
 
 <body>
-  <h1>Lista de Turmas</h1>
-  <ul>
-    {% for turma in turmas %}
-      <li>
-        <a href="{{ url_for('turmas.get_turma', id_turma=turma.id) }}">
-          {{ turma.descricao }} (ID: {{ turma.id }})
-        </a>
-        <br>
-        <p>Status: 
-          {% if turma.status %}
-            Ativo
-          {% else %}
-            Desativado
-          {% endif %}
-        </p>
-      </li>
-    {% endfor %}
-  </ul>
+  <div class="container">
+    <h1>Lista de Turmas</h1>
+    <ul>
+      {% for turma in turmas %}
+        <li>
+          <a href="{{ url_for('turmas.get_turma', id_turma=turma.id) }}">
+            {{ turma.descricao }} (ID: {{ turma.id }})
+          </a>
+          <p class="status {% if turma.status %}ativo{% else %}desativado{% endif %}">
+            Status: {% if turma.status %}Ativo{% else %}Desativado{% endif %}
+          </p>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
 </body>
 
 </html>

@@ -2,26 +2,70 @@
 <html lang="pt-BR">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lista de Professores</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Professores</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        span {
+            display: block;
+            margin-top: 5px;
+            color: #555;
+        }
+
+        .turma {
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
 </head>
 
 <body>
-  <h1>Lista de Professores</h1>
-  <ul>
-    {% for professor in professores %}
-    <li><a href="{{ url_for('professores.get_professor', id_professor=professor.id) }}">{{ professor.nome }} (ID: {{ professor.id }})</a>
-      <br>
-      <span>Idade: {{ professor.idade }}</span>
-      <br>
-      <span>Materia: {{ professor.materia }}</span>
-      <br>
-      <span>Observações: {{ professor.observacoes }}</span>
-    {% endfor %}
-  </ul>
-
-
+    <h1>Lista de Professores</h1>
+    <ul>
+        {% for professor in professores %}
+        <li>
+            <a href="{{ url_for('professores.get_professor', id_professor=professor.id) }}">{{ professor.nome }} (ID: {{ professor.id }})</a>
+            <span class="turma">Turma: {{ professor.turma.descricao if professor.turma else 'Não atribuído' }}</span>
+            <span>Idade: {{ professor.idade }}</span>
+            <span>Matéria: {{ professor.materia }}</span>
+            <span>Observações: {{ professor.observacoes }}</span>
+        </li>
+        {% endfor %}
+    </ul>
 </body>
 
 </html>

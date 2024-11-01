@@ -2,24 +2,84 @@
 <html lang="pt-BR">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detalhes do Professor</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Professor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .details {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin: 10px 0;
+            color: #555;
+        }
+
+        strong {
+            color: #333;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #c82333;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
 <body>
-  <h1>Detalhes do Professor</h1>
-  <p><strong>ID:</strong> {{ professor.id }}</p>
-  <p><strong>Nome:</strong> {{ professor.nome }}</p>
-  <p><strong>Idade:</strong> {{ professor.idade }}</p>
-  <p><strong>Matéria:</strong> {{ professor.materia }}</p>
-  <p><strong>Observações:</strong> {{ professor.observacoes }}</p>
+    <h1>Detalhes do Professor</h1>
+    <div class="details">
+        <p><strong>ID:</strong> {{ professor.id }}</p>
+        <p><strong>Nome:</strong> {{ professor.nome }}</p>
+        <p><strong>Idade:</strong> {{ professor.idade }}</p>
+        <p><strong>Matéria:</strong> {{ professor.materia }}</p>
+        <p><strong>Observações:</strong> {{ professor.observacoes }}</p>
+    </div>
 
-  <form id="delete-form" action="{{ url_for('professores.delete_professor', id_professor=professor.id) }}" method="POST">
-    <input type="hidden" name="_method" value="DELETE">
-    <button type="submit">Excluir Professor</button>
-  </form>
-  <a href="{{ url_for('professores.get_professores') }}">Voltar para a lista de professores</a>
+    <form id="delete-form" action="{{ url_for('professores.delete_professor', id_professor=professor.id) }}" method="POST">
+        <input type="hidden" name="_method" value="DELETE">
+        <button type="submit">Excluir Professor</button>
+    </form>
+    
+    <a href="{{ url_for('professores.get_professores') }}">Voltar para a lista de professores</a>
 </body>
 
 </html>

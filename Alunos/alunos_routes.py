@@ -1,7 +1,9 @@
 from flask import Blueprint, request, jsonify,render_template,redirect, url_for
 
-from .alunos_model import AlunoNaoEncontrado, listar_alunos, aluno_por_id, adicionar_aluno, atualizar_aluno, excluir_aluno
+from .alunos_model import AlunoNaoEncontrado,Aluno, listar_alunos, aluno_por_id, adicionar_aluno, atualizar_aluno, excluir_aluno
 from config import db
+from turmas.turmas_model import listar_turmas, Turma
+from professor.professor_model import Professor	
 
 
 
@@ -9,7 +11,11 @@ alunos_blueprint = Blueprint('alunos', __name__)
 
 @alunos_blueprint.route('/', methods=['GET'])
 def getIndex():
-    return "Meu index"
+    professores = Professor.query.all()
+    turmas = Turma.query.all()
+    alunos = Aluno.query.all()
+    return render_template('alunos/index.html', professores=professores,
+                           turmas=turmas, alunos=alunos)
 
 ## ROTA PARA TODOS OS ALUNOS
 @alunos_blueprint.route('/alunos', methods=['GET'])
@@ -29,7 +35,8 @@ def get_aluno(id_aluno):
 ## ROTA ACESSAR O FORMULARIO DE CRIAÇÃO DE UM NOVO ALUNOS   
 @alunos_blueprint.route('/alunos/adicionar', methods=['GET'])
 def adicionar_aluno_page():
-    return render_template('alunos/criar_alunos.html')
+    turmas = listar_turmas()
+    return render_template('alunos/criar_alunos.html', turmas = turmas)
 
 ## ROTA QUE CRIA UM NOVO ALUNO
 @alunos_blueprint.route('/alunos', methods=['POST'])
@@ -39,9 +46,11 @@ def create_aluno():
     data_nascimento = request.form['data_nascimento']
     nota_primeiro_sesmestre = request.form['nota_primeiro_semestre']
     nota_segundo_semestre = request.form['nota_segundo_semestre']
+    professor = request.form['professor']
     novo_aluno = {'nome': nome, 'idade': idade, 'data_nascimento': data_nascimento,
                    'nota_primeiro_semestre': nota_primeiro_sesmestre,
-                   'nota_segundo_semestre': nota_segundo_semestre}
+                   'nota_segundo_semestre': nota_segundo_semestre,
+                   'professor': professor}
     adicionar_aluno(novo_aluno)
     return redirect(url_for('alunos.get_alunos'))
 
@@ -65,6 +74,7 @@ def update_aluno(id_aluno):
         aluno['data_nascimento'] = request.form['data_nascimento']
         aluno['nota_primeiro_semestre'] = request.form['nota_segundo_semestre']
         aluno['nota_segundo-semestre'] = request.form['nota_segundo_semestre']
+        aluno['professor'] = request.form['professor']
         
         atualizar_aluno(id_aluno, aluno)
         

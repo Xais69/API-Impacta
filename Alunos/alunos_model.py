@@ -1,5 +1,6 @@
 from config import db
 from datetime import datetime
+from turmas.turmas_model import listar_turmas
 
 class Aluno(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -9,14 +10,19 @@ class Aluno(db.Model):
     nota_primeiro_semestre = db.Column(db.Float)
     nota_segundo_semestre = db.Column(db.Float)
     media_final = db.Column(db.Float)
+    professor = db.Column(db.String(150))
+    turma_id = db.Column(db.Integer, db.ForeignKey('turma.id'), nullable=True)
 
-    def __init__(self, nome, idade, data_nascimento, nota_primeiro_semestre, nota_segundo_semestre):  
+    def __init__(self, nome,professor, turma_id, idade, data_nascimento, nota_primeiro_semestre, nota_segundo_semestre):  
         self.nome = nome
         self.idade = idade  
         self.data_nascimento = data_nascimento
         self.nota_primeiro_semestre = float(nota_primeiro_semestre)  # Converter para float
         self.nota_segundo_semestre = float(nota_segundo_semestre)    # Converter para float
-        self.media_final = self.calcular_media()  # Calcular média no momento da criação
+        self.media_final = self.calcular_media()
+        self.professor = professor
+        self.turma_id = turma_id  # Calcular média no momento da criação
+        
 
     def calcular_media(self):
         # Verifica se as notas são válidas
@@ -32,7 +38,8 @@ class Aluno(db.Model):
             'data_nascimento': self.data_nascimento,
             'nota_primeiro_semestre': self.nota_primeiro_semestre,
             'nota_segundo_semestre': self.nota_segundo_semestre,
-            'media_final': self.media_final
+            'media_final': self.media_final,
+            'professor': self.professor
         }
 
 class AlunoNaoEncontrado(Exception):
@@ -54,7 +61,9 @@ def adicionar_aluno(aluno_data):
         idade=aluno_data['idade'], 
         data_nascimento=datetime.strptime(aluno_data['data_nascimento'], '%Y-%m-%d').date(),  # Certifique-se de que a data está sendo convertida
         nota_primeiro_semestre=float(aluno_data['nota_primeiro_semestre']),  # Converter para float
-        nota_segundo_semestre=float(aluno_data['nota_segundo_semestre'])     # Converter para float
+        nota_segundo_semestre=float(aluno_data['nota_segundo_semestre']),     # Converter para float
+        turma_id=aluno_data.get('turma_id'),
+        professor=aluno_data['professor']
     )
     db.session.add(novo_aluno)
     db.session.commit()
@@ -66,6 +75,7 @@ def atualizar_aluno(id_aluno, novos_dados):
     
     aluno.nome = novos_dados.get('nome', aluno.nome)
     aluno.idade = novos_dados.get('idade', aluno.idade)
+    aluno.professor = novos_dados.get('professor',aluno.professor)
 
     # Converte a data de nascimento para um objeto date
     if 'data_nascimento' in novos_dados:

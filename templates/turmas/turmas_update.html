@@ -5,23 +5,102 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Atualizar Turma</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+
+    h1 {
+      color: #333;
+      font-size: 1.8em;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      margin-top: 10px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1em;
+      color: #333;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-size: 1em;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    a {
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+      text-decoration: none;
+      color: #3498db;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 
 <body>
-  <h1>Atualizar Turma</h1>
-  <form action="{{ url_for('turmas.update_turma', id_turma=turma.id) }}" method="POST"> <input type="hidden" name="_method" value="PUT">
-    
-    <label for="nome">Descricão da Turma:</label>
-    <input type="text" id="descricao" name="descricao" value="{{ turma.descricao}}" required>
+  <div class="container">
+    <h1>Atualizar Turma</h1>
+    <form action="{{ url_for('turmas.update_turma', id_turma=turma.id) }}" method="POST">
+      <input type="hidden" name="_method" value="PUT">
 
-    <label for="status">Status:</label>
-    <select id="status" name="status">
-      <option value="True" {% if turma.status %}selected{% endif %}>Ativo</option>
-      <option value="False" {% if not turma.status %}selected{% endif %}>Desativado</option>
-    </select><br>
-    
-    <button type="submit">Atualizar</button>
-  </form>
+      <label for="descricao">Descrição da Turma:</label>
+      <input type="text" id="descricao" name="descricao" value="{{ turma.descricao }}" required>
+
+      <label for="status">Status:</label>
+      <select id="status" name="status">
+        <option value="True" {% if turma.status %}selected{% endif %}>Ativo</option>
+        <option value="False" {% if not turma.status %}selected{% endif %}>Desativado</option>
+      </select>
+
+      <button type="submit">Atualizar</button>
+    </form>
+
+    <a href="{{ url_for('turmas.get_turmas') }}">Voltar para a lista de turmas</a>
+  </div>
 </body>
 
 </html>

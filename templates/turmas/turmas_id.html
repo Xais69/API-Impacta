@@ -1,4 +1,3 @@
-<!-- detalhes_aluno.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -6,27 +5,99 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Detalhes da Turma</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+
+    h1 {
+      color: #333;
+      font-size: 1.8em;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    p {
+      margin: 10px 0;
+      font-size: 1em;
+      color: #555;
+    }
+
+    strong {
+      color: #333;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    button {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-size: 1em;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #c0392b;
+    }
+
+    a {
+      text-decoration: none;
+      color: #3498db;
+      margin-top: 10px;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 
 <body>
-  <h1>Detalhes da Turma</h1>
-  <p><strong>ID:</strong> {{ turmas.id }}</p>
-  <p><strong>Descricão da turma:</strong> {{ turmas.descricao }}</p>
-  <p><strong>Status:</strong> 
-    {% if turmas.status %}
-      Ativo
-    {% else %}
-      Desativado
-    {% endif %}
-  </p>
+  <div class="container">
+    <h1>Detalhes da Turma</h1>
+    <p><strong>ID:</strong> {{ turmas.id }}</p>
+    <p><strong>Descrição da Turma:</strong> {{ turmas.descricao }}</p>
+    <p><strong>Status:</strong> 
+      {% if turmas.status %}
+        Ativo
+      {% else %}
+        Desativado
+      {% endif %}
+    </p>
 
-  <form id="delete-form" action="{{ url_for('turmas.delete_turma', id_turma=turmas.id) }}" method="POST">
-    <input type="hidden" name="_method" value="DELETE">
-    <button type="submit">Excluir Turma</button>
-  </form>
-  <a href="{{ url_for('turmas.get_turmas') }}">Voltar para a lista de turmas</a>
-
-
+    <form id="delete-form" action="{{ url_for('turmas.delete_turma', id_turma=turmas.id) }}" method="POST">
+      <input type="hidden" name="_method" value="DELETE">
+      <button type="submit">Excluir Turma</button>
+    </form>
+    
+    <a href="{{ url_for('turmas.get_turmas') }}">Voltar para a lista de turmas</a>
+  </div>
 </body>
 
 </html>
