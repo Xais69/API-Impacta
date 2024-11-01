@@ -20,8 +20,8 @@ def getIndex():
 ## ROTA PARA TODOS OS ALUNOS
 @alunos_blueprint.route('/alunos', methods=['GET'])
 def get_alunos():
-    alunos = listar_alunos()
-    return render_template("alunos/alunos.html", alunos=alunos)
+    alunos = Aluno.query.options(db.joinedload(Aluno.turma)).all()  # Carrega a turma junto
+    return render_template('/alunos/alunos.html', alunos=alunos)
 
 ## ROTA PARA UM ALUNO
 @alunos_blueprint.route('/aluno/<int:id_aluno>', methods=['GET'])
@@ -41,17 +41,16 @@ def adicionar_aluno_page():
 ## ROTA QUE CRIA UM NOVO ALUNO
 @alunos_blueprint.route('/alunos', methods=['POST'])
 def create_aluno():
-    nome = request.form['nome']
-    idade = request.form['idade']
-    data_nascimento = request.form['data_nascimento']
-    nota_primeiro_sesmestre = request.form['nota_primeiro_semestre']
-    nota_segundo_semestre = request.form['nota_segundo_semestre']
-    professor = request.form['professor']
-    novo_aluno = {'nome': nome, 'idade': idade, 'data_nascimento': data_nascimento,
-                   'nota_primeiro_semestre': nota_primeiro_sesmestre,
-                   'nota_segundo_semestre': nota_segundo_semestre,
-                   'professor': professor}
-    adicionar_aluno(novo_aluno)
+    aluno_data = {
+        'nome': request.form['nome'],
+        'idade': request.form['idade'],
+        'data_nascimento': request.form['data_nascimento'],
+        'nota_primeiro_semestre': request.form['nota_primeiro_semestre'],
+        'nota_segundo_semestre': request.form['nota_segundo_semestre'],
+        'professor': request.form['professor'],  # Se aplicável
+        'turma_id': request.form['turma_id']  # Captura o ID da turma
+    }
+    adicionar_aluno(aluno_data)
     return redirect(url_for('alunos.get_alunos'))
 
 ## ROTA PARA O FORMULARIO PARA EDITAR UM NOVO ALUNO

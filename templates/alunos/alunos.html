@@ -54,6 +54,20 @@
         .media-final {
             font-weight: bold;
         }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 
@@ -70,10 +84,10 @@
             <span>Nota Segundo Semestre: {{ aluno.nota_segundo_semestre }}</span>
             <span class="media-final">Média Final: {{ aluno.media_final }}</span>
             <span class="media-final">Professor: {{ aluno.professor }}</span>
-
         </li>
         {% endfor %}
     </ul>
+    <a href="{{ url_for('alunos.getIndex') }}" class="back-button">Voltar para a Página Inicial</a>
 </body>
 
 </html>

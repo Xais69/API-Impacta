@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, render_template, redirect, url_for
-from turmas.turmas_model import TurmaNaoEncontrada, turma_por_id, listar_turmas, adicionar_turma, atualizar_turma, excluir_turma
+from turmas.turmas_model import TurmaNaoEncontrada,Turma, turma_por_id, listar_turmas, adicionar_turma, atualizar_turma, excluir_turma
 from config import db
 
 turmas_blueprint = Blueprint('turmas',__name__)
@@ -7,6 +7,7 @@ turmas_blueprint = Blueprint('turmas',__name__)
 # Rota para listar todos as turmas
 @turmas_blueprint.route('/turmas', methods=['GET'])
 def get_turmas():
+    turma = Turma.query.options(db.joinedload(Turma.professor)).all()
     turmas = listar_turmas()
     return render_template("turmas/turmas.html", turmas = turmas)
 
@@ -32,8 +33,9 @@ def adicionar_turma_page():
 def create_turma():
     descricao = request.form['descricao']
     status = request.form['status']
-    nova_turma = {'descricao': descricao, 'status': status}
-    adicionar_turma(nova_turma)
+    professor_id = request.form['professor_id']
+    nova_turma = {'descricao': descricao, 'status': status,}
+    adicionar_turma(nova_turma,professor_id)
     return redirect(url_for('turmas.get_turmas'))
  
 

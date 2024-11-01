@@ -11,7 +11,7 @@ class Aluno(db.Model):
     nota_segundo_semestre = db.Column(db.Float)
     media_final = db.Column(db.Float)
     professor = db.Column(db.String(150))
-    turma_id = db.Column(db.Integer, db.ForeignKey('turma.id'), nullable=True)
+    turma_id = db.Column(db.Integer, db.ForeignKey('turma.id'), nullable=False)
 
     def __init__(self, nome,professor, turma_id, idade, data_nascimento, nota_primeiro_semestre, nota_segundo_semestre):  
         self.nome = nome
@@ -21,7 +21,7 @@ class Aluno(db.Model):
         self.nota_segundo_semestre = float(nota_segundo_semestre)    # Converter para float
         self.media_final = self.calcular_media()
         self.professor = professor
-        self.turma_id = turma_id  # Calcular média no momento da criação
+        self.turma_id = turma_id 
         
 
     def calcular_media(self):
@@ -87,6 +87,7 @@ def atualizar_aluno(id_aluno, novos_dados):
     
     # Recalcula a média
     aluno.media_final = aluno.calcular_media()
+    
 
     db.session.commit()
 
@@ -96,3 +97,4 @@ def excluir_aluno(id_aluno):
         raise AlunoNaoEncontrado
     db.session.delete(aluno)
     db.session.commit()
+

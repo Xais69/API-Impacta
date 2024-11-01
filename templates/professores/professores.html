@@ -59,13 +59,23 @@
         {% for professor in professores %}
         <li>
             <a href="{{ url_for('professores.get_professor', id_professor=professor.id) }}">{{ professor.nome }} (ID: {{ professor.id }})</a>
-            <span class="turma">Turma: {{ professor.turma.descricao if professor.turma else 'Não atribuído' }}</span>
             <span>Idade: {{ professor.idade }}</span>
             <span>Matéria: {{ professor.materia }}</span>
             <span>Observações: {{ professor.observacoes }}</span>
+            
+            <span class="turma">Turmas:</span>
+            <ul>
+                {% for turma in professor.turmas %}
+                    <li>{{ turma.descricao }}</li>
+                {% else %}
+                    <li>Não atribuído</li>
+                {% endfor %}
+            </ul>
         </li>
         {% endfor %}
     </ul>
+</ul>
+<a href="{{ url_for('alunos.getIndex') }}" class="back-button">Voltar para a Página Inicial</a>
 </body>
 
 </html>

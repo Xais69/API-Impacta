@@ -58,6 +58,24 @@
             font-style: italic;
             color: #888;
         }
+
+        .button {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 
@@ -65,12 +83,13 @@
     <h1>Bem-vindo ao projeto de API!</h1>
 
     <h2>
-        <a href="/professor">Professores</a>
+        <a href="{{ url_for('professores.get_professores') }}">Professores</a>
     </h2>
+    <a class="button" href="{{ url_for('professores.adicionar_professor_page') }}">Adicionar Professor</a>
     <ul>
         {% for professor in professores %}
             <li>
-                <a href="/professor/{{ professor.id }}">{{ professor.nome }}</a> - {{ professor.materia }}
+                <a href="{{ url_for('professores.get_professor', id_professor=professor.id) }}">{{ professor.nome }}</a> - {{ professor.materia }}
             </li>
         {% else %}
             <li class="no-data">Nenhum professor encontrado.</li>
@@ -78,12 +97,13 @@
     </ul>
 
     <h2>
-        <a href="/turmas">Turmas</a>
+        <a href="{{ url_for('turmas.get_turmas') }}">Turmas</a>
     </h2>
+    <a class="button" href="{{ url_for('turmas.adicionar_turma_page') }}">Adicionar Turma</a>
     <ul>
         {% for turma in turmas %}
             <li>
-                <a href="/turmas/{{ turma.id }}">{{ turma.descricao }}</a>
+                <a href="{{ url_for('turmas.get_turma', id_turma=turma.id) }}">{{ turma.descricao }}</a>
             </li>
         {% else %}
             <li class="no-data">Nenhuma turma encontrada.</li>
@@ -91,12 +111,13 @@
     </ul>
 
     <h2>
-        <a href="/alunos">Alunos</a>
+        <a href="{{ url_for('alunos.get_alunos') }}">Alunos</a>
     </h2>
+    <a class="button" href="{{ url_for('alunos.adicionar_aluno_page') }}">Adicionar Aluno</a>
     <ul>
         {% for aluno in alunos %}
             <li>
-                <a href="/alunos/{{ aluno.id }}">{{ aluno.nome }}</a> - {{ aluno.idade }} anos
+                <a href="{{ url_for('alunos.get_aluno', id_aluno=aluno.id) }}">{{ aluno.nome }}</a> - {{ aluno.idade }} anos
             </li>
         {% else %}
             <li class="no-data">Nenhum aluno encontrado.</li>

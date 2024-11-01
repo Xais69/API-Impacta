@@ -91,6 +91,13 @@
       {% endif %}
     </p>
 
+    <h2>Professor</h2>
+    <p><strong>ID:</strong> {{ turma.professor.id }}</p>
+    <p><strong>Nome:</strong> {{ turma.professor.nome }}</p>
+    <p><strong>Idade:</strong> {{ turma.professor.idade }}</p>
+    <p><strong>Matéria:</strong> {{ turma.professor.materia }}</p>
+    <p><strong>Observações:</strong> {{ turma.professor.observacoes }}</p>
+
     <form id="delete-form" action="{{ url_for('turmas.delete_turma', id_turma=turmas.id) }}" method="POST">
       <input type="hidden" name="_method" value="DELETE">
       <button type="submit">Excluir Turma</button>
